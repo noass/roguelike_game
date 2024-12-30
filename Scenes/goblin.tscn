@@ -1,0 +1,41 @@
+[gd_scene load_steps=7 format=3 uid="uid://c3y8d2i2lby2o"]
+
+[ext_resource type="Script" path="res://Scripts/Enemy.gd" id="1_dc1ky"]
+[ext_resource type="Texture2D" uid="uid://x1w58cduy1ta" path="res://Sprites/goblin.png" id="1_mmxhd"]
+[ext_resource type="Shader" path="res://Shaders/fill_color.gdshader" id="2_ilysd"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bumsu"]
+resource_local_to_scene = true
+shader = ExtResource("2_ilysd")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_modifier = 0.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rwmyf"]
+radius = 7.0
+height = 14.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rg1fe"]
+radius = 8.06226
+
+[node name="Goblin" type="CharacterBody2D" groups=["Enemy"]]
+y_sort_enabled = true
+position = Vector2(0, -6)
+collision_layer = 2
+collision_mask = 3
+motion_mode = 1
+script = ExtResource("1_dc1ky")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+y_sort_enabled = true
+material = SubResource("ShaderMaterial_bumsu")
+texture = ExtResource("1_mmxhd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 6)
+shape = SubResource("CapsuleShape2D_rwmyf")
+
+[node name="HitPlayerRange" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitPlayerRange"]
+position = Vector2(0, 6)
+shape = SubResource("CircleShape2D_rg1fe")

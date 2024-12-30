@@ -1,0 +1,70 @@
+[gd_scene load_steps=6 format=3 uid="uid://djntjqj5fs2e3"]
+
+[ext_resource type="Texture2D" uid="uid://c6fnv28dg5xwk" path="res://Sprites/slashAnim.png" id="1_2v26u"]
+[ext_resource type="Script" path="res://Scripts/Attack.gd" id="1_5a18k"]
+
+[sub_resource type="Animation" id="Animation_k7vyj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_2de02"]
+resource_name = "hit"
+length = 0.6
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7a2d0"]
+_data = {
+"RESET": SubResource("Animation_k7vyj"),
+"hit": SubResource("Animation_2de02")
+}
+
+[node name="Slash" type="Node2D"]
+z_index = 100
+scale = Vector2(1.5, 1.5)
+script = ExtResource("1_5a18k")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-17.3333, 0)
+texture = ExtResource("1_2v26u")
+hframes = 6
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Sprite2D")
+libraries = {
+"": SubResource("AnimationLibrary_7a2d0")
+}
+autoplay = "hit"
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(-17.3333, 0)
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+polygon = PackedVector2Array(-3.24249e-05, -12.6667, -1.33337, -6, -1.33337, 2, 1.99997, 9.33333, 7.99997, 17.3333, 16.6666, 16.6667, 9.99997, 7.33333, 17.3333, 1.33333, 17.3333, -1.33333, 5.3333, -9.33333, 9.3333, -14.6667, 7.3333, -18)
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

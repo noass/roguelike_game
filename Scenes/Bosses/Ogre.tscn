@@ -1,0 +1,177 @@
+[gd_scene load_steps=13 format=3 uid="uid://bl3bdo8qw7f2o"]
+
+[ext_resource type="Script" path="res://Scripts/Bosses/ogre.gd" id="1_g153i"]
+[ext_resource type="Texture2D" uid="uid://cbmo3mplka8v0" path="res://Sprites/Bosses/Ogre/ogre_walk_throw.png" id="2_14vby"]
+[ext_resource type="Shader" path="res://Shaders/fill_color.gdshader" id="2_mwy0e"]
+[ext_resource type="Texture2D" uid="uid://dee5qfqmko66y" path="res://Sprites/slime.png" id="3_me5ai"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bumsu"]
+resource_local_to_scene = true
+shader = ExtResource("2_mwy0e")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_modifier = 0.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rwmyf"]
+height = 32.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_30a0q"]
+radius = 11.0
+height = 34.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xw45v"]
+radius = 221.002
+
+[sub_resource type="Animation" id="Animation_2hipn"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SlimeOutOfBag:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(15, -31)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SlimeOutOfBag:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_m7epo"]
+resource_name = "throw"
+length = 0.5
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [4, 5, 6, 7, 8]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SlimeOutOfBag:position")
+tracks/1/interp = 0
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(15, -31), Vector2(27, -28), Vector2(32, -24)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SlimeOutOfBag:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.1, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_nyr03"]
+resource_name = "walk"
+length = 0.3
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0, 1, 2]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7wajn"]
+_data = {
+"RESET": SubResource("Animation_2hipn"),
+"throw": SubResource("Animation_m7epo"),
+"walk": SubResource("Animation_nyr03")
+}
+
+[node name="Ogre" type="CharacterBody2D" groups=["Enemy"]]
+y_sort_enabled = true
+collision_layer = 2
+collision_mask = 3
+motion_mode = 1
+script = ExtResource("1_g153i")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+y_sort_enabled = true
+material = SubResource("ShaderMaterial_bumsu")
+position = Vector2(0, -28)
+texture = ExtResource("2_14vby")
+hframes = 9
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 3)
+shape = SubResource("CapsuleShape2D_rwmyf")
+
+[node name="HitPlayerRange" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitPlayerRange"]
+position = Vector2(0, 3)
+shape = SubResource("CapsuleShape2D_30a0q")
+
+[node name="RangeToThrow" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RangeToThrow"]
+shape = SubResource("CircleShape2D_xw45v")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_7wajn")
+}
+autoplay = "walk"
+speed_scale = 0.5
+
+[node name="SlimeOutOfBag" type="Sprite2D" parent="."]
+visible = false
+y_sort_enabled = true
+position = Vector2(15, -31)
+texture = ExtResource("3_me5ai")
+flip_h = true
+
+[node name="ThrowOrigin" type="Marker2D" parent="."]
+position = Vector2(32, -20)
+
+[connection signal="body_entered" from="RangeToThrow" to="." method="_on_range_to_throw_body_entered"]
+[connection signal="body_exited" from="RangeToThrow" to="." method="_on_range_to_throw_body_exited"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

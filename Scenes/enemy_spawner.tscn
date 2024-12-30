@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3 uid="uid://cuvggboubncn7"]
+
+[ext_resource type="Script" path="res://Scripts/enemy_spawner.gd" id="1_2w3ce"]
+
+[sub_resource type="Curve2D" id="Curve2D_2n8u8"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -64, -64, 0, 0, 0, 0, 1344, -56, 0, 0, 0, 0, 1344, 768, 0, 0, 0, 0, -64, 768, 0, 0, 0, 0, -64, -64)
+}
+point_count = 5
+
+[node name="EnemySpawner" type="Path2D"]
+curve = SubResource("Curve2D_2n8u8")
+script = ExtResource("1_2w3ce")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="."]
+position = Vector2(-64, -64)
+rotation = 0.00568176
+
+[node name="EnemySpawnTimers" type="Node" parent="."]
+
+[node name="GoblinSpawnTimer" type="Timer" parent="EnemySpawnTimers"]
+wait_time = 2.0
+autostart = true
+
+[node name="SlimeSpawnTimer" type="Timer" parent="EnemySpawnTimers"]
+wait_time = 1.5
+autostart = true
+
+[connection signal="timeout" from="EnemySpawnTimers/GoblinSpawnTimer" to="." method="_on_goblin_spawn_timer_timeout"]
+[connection signal="timeout" from="EnemySpawnTimers/SlimeSpawnTimer" to="." method="_on_slime_spawn_timer_timeout"]

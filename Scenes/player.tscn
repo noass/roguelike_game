@@ -1,0 +1,728 @@
+[gd_scene load_steps=16 format=3 uid="uid://cu403irciaw4m"]
+
+[ext_resource type="Script" path="res://Scripts/Player.gd" id="1_a6w1y"]
+[ext_resource type="Texture2D" uid="uid://ur5dofpo05b0" path="res://Sprites/player.png" id="1_biyp0"]
+[ext_resource type="Shader" path="res://Shaders/fill_color.gdshader" id="2_ioirc"]
+[ext_resource type="FontFile" uid="uid://c8t7eq13wr5xn" path="res://Fonts/Wolfskin.otf" id="3_0qtg5"]
+[ext_resource type="Script" path="res://Scripts/gui.gd" id="3_10dlp"]
+[ext_resource type="Script" path="res://Scripts/pause_menu.gd" id="5_5pe5v"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_78x5s"]
+shader = ExtResource("2_ioirc")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_modifier = 0.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_g8gha"]
+radius = 6.0
+height = 14.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h2ifw"]
+bg_color = Color(0, 0, 0, 0.27451)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g2k3m"]
+bg_color = Color(0.355948, 0.63731, 0.794223, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yf0nx"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_atx1t"]
+bg_color = Color(0, 0, 0, 0.27451)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sv5re"]
+bg_color = Color(1, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_711km"]
+bg_color = Color(0, 0, 0, 0.509804)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_322be"]
+bg_color = Color(1, 1, 1, 0.211765)
+
+[node name="Player" type="CharacterBody2D"]
+y_sort_enabled = true
+position = Vector2(0, -2)
+motion_mode = 1
+script = ExtResource("1_a6w1y")
+
+[node name="RegenHealthTimer" type="Timer" parent="."]
+wait_time = 20.0
+autostart = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_78x5s")
+texture = ExtResource("1_biyp0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2)
+shape = SubResource("CapsuleShape2D_g8gha")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="GUI" type="Control" parent="."]
+process_mode = 3
+z_index = 4096
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("3_10dlp")
+
+[node name="LevelProgress" type="ProgressBar" parent="GUI"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = -640.0
+offset_top = -360.0
+offset_right = 600.0
+offset_bottom = -333.0
+grow_horizontal = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_h2ifw")
+theme_override_styles/fill = SubResource("StyleBoxFlat_g2k3m")
+max_value = 20.0
+step = 1.0
+show_percentage = false
+
+[node name="LevelText" type="Label" parent="GUI"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_top = -9.0
+anchor_bottom = -9.0
+offset_left = -32.0
+offset_right = 32.0
+offset_bottom = 31.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("3_0qtg5")
+theme_override_font_sizes/font_size = 31
+text = "0/20"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HPBARBGS" type="Control" parent="GUI"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HPBarBG" type="Panel" parent="GUI/HPBARBGS"]
+layout_mode = 0
+offset_left = -136.0
+offset_top = 312.0
+offset_right = -133.0
+offset_bottom = 349.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_yf0nx")
+
+[node name="HPBarBG4" type="Panel" parent="GUI/HPBARBGS"]
+layout_mode = 0
+offset_left = 133.0
+offset_top = 312.0
+offset_right = 136.0
+offset_bottom = 349.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_yf0nx")
+
+[node name="HPBarBG2" type="Panel" parent="GUI/HPBARBGS"]
+layout_mode = 0
+offset_left = -133.0
+offset_top = 346.0
+offset_right = 133.0
+offset_bottom = 349.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_yf0nx")
+
+[node name="HPBarBG3" type="Panel" parent="GUI/HPBARBGS"]
+layout_mode = 0
+offset_left = -133.0
+offset_top = 312.0
+offset_right = 133.0
+offset_bottom = 315.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_yf0nx")
+
+[node name="HPBar" type="ProgressBar" parent="GUI"]
+layout_mode = 0
+offset_left = -133.0
+offset_top = 315.0
+offset_right = 133.0
+offset_bottom = 346.0
+theme_override_styles/background = SubResource("StyleBoxFlat_atx1t")
+theme_override_styles/fill = SubResource("StyleBoxFlat_sv5re")
+max_value = 50.0
+step = 1.0
+value = 50.0
+show_percentage = false
+
+[node name="HPText" type="Label" parent="GUI"]
+layout_mode = 1
+offset_left = -133.0
+offset_top = 317.0
+offset_right = 133.0
+offset_bottom = 348.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("3_0qtg5")
+theme_override_font_sizes/font_size = 31
+text = "0/50"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="FPSTEXT" type="Label" parent="GUI"]
+layout_mode = 1
+offset_left = -637.0
+offset_top = 329.0
+offset_right = -529.0
+offset_bottom = 360.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("3_0qtg5")
+theme_override_font_sizes/font_size = 21
+text = "FPS: 100"
+vertical_alignment = 2
+
+[node name="TimeText" type="Label" parent="GUI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = -9.0
+anchor_bottom = -9.0
+offset_left = -52.0
+offset_top = 31.0
+offset_right = 52.0
+offset_bottom = 62.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("3_0qtg5")
+theme_override_font_sizes/font_size = 31
+text = "00:00"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ActualLevelText" type="Label" parent="GUI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = -9.0
+anchor_bottom = -9.0
+offset_left = -632.0
+offset_right = -32.0
+offset_bottom = 31.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.529412)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.529412)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("3_0qtg5")
+theme_override_font_sizes/font_size = 21
+text = "Level: 99999"
+vertical_alignment = 1
+
+[node name="LevelUpGUI" type="Control" parent="GUI"]
+process_mode = 3
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Panel" type="Panel" parent="GUI/LevelUpGUI"]
+layout_mode = 0
+offset_left = -384.0
+offset_top = -283.0
+offset_right = 384.0
+offset_bottom = 295.0
+
+[node name="LVLUPTEXT" type="RichTextLabel" parent="GUI/LevelUpGUI"]
+clip_contents = false
+layout_mode = 2
+offset_left = -95.0
+offset_top = -267.0
+offset_right = 97.0
+offset_bottom = -234.0
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/normal_font = ExtResource("3_0qtg5")
+theme_override_font_sizes/normal_font_size = 34
+bbcode_enabled = true
+text = "[shake rate=20.0 level=10 connected=1][rainbow freq=0.2 sat=0.8 val=0.8][wave amp=50.0 freq=5.0 connected=1][center]LEVEL UP![/center][/wave][/rainbow][/shake]"
+fit_content = true
+
+[node name="Upgrades" type="HBoxContainer" parent="GUI/LevelUpGUI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -8.0
+anchor_top = -4.8
+anchor_right = 8.0
+anchor_bottom = 4.8
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 225
+
+[node name="LevelOption1" type="Control" parent="GUI/LevelUpGUI/Upgrades"]
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="GUI/LevelUpGUI/Upgrades/LevelOption1"]
+layout_mode = 2
+offset_right = 192.0
+offset_bottom = 384.0
+
+[node name="Choose" type="RichTextLabel" parent="GUI/LevelUpGUI/Upgrades/LevelOption1"]
+layout_mode = 2
+offset_left = 233.0
+offset_top = -35.0
+offset_right = 409.0
+offset_bottom = -11.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/normal_font = ExtResource("3_0qtg5")
+theme_override_font_sizes/normal_font_size = 24
+bbcode_enabled = true
+text = "[center]Choose an upgrade[/center]"
+fit_content = true
+
+[node name="RerollBTN" type="Button" parent="GUI/LevelUpGUI/Upgrades/LevelOption1"]
+layout_mode = 2
+offset_left = 274.0
+offset_top = 409.0
+offset_right = 366.0
+offset_bottom = 445.0
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("3_0qtg5")
+theme_override_font_sizes/font_size = 20
+text = "REROLL"
+
+[node name="RerollsRemainingText" type="Label" parent="GUI/LevelUpGUI/Upgrades/LevelOption1"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = -9.0
+anchor_bottom = -9.0
+offset_left = 202.0
+offset_top = 3901.0
+offset_right = 439.0
+offset_bottom = 3932.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("3_0qtg5")
+theme_override_font_sizes/font_size = 20
+text = "Rerolls remaining: 3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GUI/LevelUpGUI/Upgrades/LevelOption1"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 184.0
+offset_bottom = 376.0
+theme_override_constants/separation = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GUI/LevelUpGUI/Upgrades/LevelOption1/VBoxContainer"]
+custom_minimum_size = Vector2(0, 86.615)
+layout_mode = 2
+theme_override_constants/separation = 3
+alignment = 1
+
+[node name="Title" type="RichTextLabel" parent="GUI/LevelUpGUI/Upgrades/LevelOption1/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/normal_font = ExtResource("3_0qtg5")
+theme_override_font_sizes/normal_font_size = 24
+bbcode_enabled = true
+text = "[center]TEST TITLE[/center]"
+fit_content = true
+
+[node name="HSeparator" type="HSeparator" parent="GUI/LevelUpGUI/Upgrades/LevelOption1/VBoxContainer"]
+layout_mode = 2
+
+[node name="Description" type="RichTextLabel" parent="GUI/LevelUpGUI/Upgrades/LevelOption1/VBoxContainer"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 7
+theme_override_fonts/normal_font = ExtResource("3_0qtg5")
+theme_override_font_sizes/normal_font_size = 15
+bbcode_enabled = true
+text = "[left][/left]Test description: gives [color=#00ff44]+2 damage[/color] to slash"
+fit_content = true
+
+[node name="HSeparator2" type="HSeparator" parent="GUI/LevelUpGUI/Upgrades/LevelOption1/VBoxContainer"]
+layout_mode = 2
+
+[node name="ChooseBTN" type="Button" parent="GUI/LevelUpGUI/Upgrades/LevelOption1/VBoxContainer"]
+custom_minimum_size = Vector2(0, 53)
+layout_mode = 2
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("3_0qtg5")
+theme_override_font_sizes/font_size = 26
+text = "- CHOOSE -"
+
+[node name="LevelOption2" type="Control" parent="GUI/LevelUpGUI/Upgrades"]
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="GUI/LevelUpGUI/Upgrades/LevelOption2"]
+layout_mode = 2
+offset_right = 192.0
+offset_bottom = 384.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GUI/LevelUpGUI/Upgrades/LevelOption2"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 184.0
+offset_bottom = 376.0
+theme_override_constants/separation = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GUI/LevelUpGUI/Upgrades/LevelOption2/VBoxContainer"]
+custom_minimum_size = Vector2(0, 86.615)
+layout_mode = 2
+theme_override_constants/separation = 3
+alignment = 1
+
+[node name="Title" type="RichTextLabel" parent="GUI/LevelUpGUI/Upgrades/LevelOption2/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/normal_font = ExtResource("3_0qtg5")
+theme_override_font_sizes/normal_font_size = 24
+bbcode_enabled = true
+text = "[center]TEST TITLE[/center]"
+fit_content = true
+
+[node name="HSeparator" type="HSeparator" parent="GUI/LevelUpGUI/Upgrades/LevelOption2/VBoxContainer"]
+layout_mode = 2
+
+[node name="Description" type="RichTextLabel" parent="GUI/LevelUpGUI/Upgrades/LevelOption2/VBoxContainer"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 7
+theme_override_fonts/normal_font = ExtResource("3_0qtg5")
+theme_override_font_sizes/normal_font_size = 15
+bbcode_enabled = true
+text = "[left][/left]Test description: gives [color=#00ff44]+2 damage[/color] to slash"
+fit_content = true
+
+[node name="HSeparator2" type="HSeparator" parent="GUI/LevelUpGUI/Upgrades/LevelOption2/VBoxContainer"]
+layout_mode = 2
+
+[node name="ChooseBTN" type="Button" parent="GUI/LevelUpGUI/Upgrades/LevelOption2/VBoxContainer"]
+custom_minimum_size = Vector2(0, 53)
+layout_mode = 2
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("3_0qtg5")
+theme_override_font_sizes/font_size = 26
+text = "- CHOOSE -"
+
+[node name="LevelOption3" type="Control" parent="GUI/LevelUpGUI/Upgrades"]
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="GUI/LevelUpGUI/Upgrades/LevelOption3"]
+layout_mode = 2
+offset_right = 192.0
+offset_bottom = 384.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GUI/LevelUpGUI/Upgrades/LevelOption3"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 184.0
+offset_bottom = 376.0
+theme_override_constants/separation = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GUI/LevelUpGUI/Upgrades/LevelOption3/VBoxContainer"]
+custom_minimum_size = Vector2(0, 86.615)
+layout_mode = 2
+theme_override_constants/separation = 3
+alignment = 1
+
+[node name="Title" type="RichTextLabel" parent="GUI/LevelUpGUI/Upgrades/LevelOption3/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/normal_font = ExtResource("3_0qtg5")
+theme_override_font_sizes/normal_font_size = 24
+bbcode_enabled = true
+text = "[center]TEST TITLE[/center]"
+fit_content = true
+
+[node name="HSeparator" type="HSeparator" parent="GUI/LevelUpGUI/Upgrades/LevelOption3/VBoxContainer"]
+layout_mode = 2
+
+[node name="Description" type="RichTextLabel" parent="GUI/LevelUpGUI/Upgrades/LevelOption3/VBoxContainer"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 7
+theme_override_fonts/normal_font = ExtResource("3_0qtg5")
+theme_override_font_sizes/normal_font_size = 15
+bbcode_enabled = true
+text = "[left][/left]Test description: gives [color=#00ff44]+2 damage[/color] to slash"
+fit_content = true
+
+[node name="HSeparator2" type="HSeparator" parent="GUI/LevelUpGUI/Upgrades/LevelOption3/VBoxContainer"]
+layout_mode = 2
+
+[node name="ChooseBTN" type="Button" parent="GUI/LevelUpGUI/Upgrades/LevelOption3/VBoxContainer"]
+custom_minimum_size = Vector2(0, 53)
+layout_mode = 2
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("3_0qtg5")
+theme_override_font_sizes/font_size = 26
+text = "- CHOOSE -"
+
+[node name="PauseMenu" type="Control" parent="GUI"]
+process_mode = 3
+visible = false
+z_index = 4096
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("5_5pe5v")
+
+[node name="Panel" type="Panel" parent="GUI/PauseMenu"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -16.0
+anchor_top = -9.0
+anchor_right = 16.0
+anchor_bottom = 9.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_711km")
+
+[node name="TitleText" type="Label" parent="GUI/PauseMenu/Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = -9.0
+anchor_bottom = -9.0
+offset_left = 567.0
+offset_top = 6568.0
+offset_right = 713.0
+offset_bottom = 6633.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 17
+theme_override_fonts/font = ExtResource("3_0qtg5")
+theme_override_font_sizes/font_size = 66
+text = "MENU"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StatsText" type="RichTextLabel" parent="GUI/PauseMenu/Panel"]
+clip_contents = false
+layout_mode = 2
+offset_left = 8.0
+offset_top = 41.0
+offset_right = 425.0
+offset_bottom = 707.0
+theme_override_colors/default_color = Color(1, 1, 1, 0.568627)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/normal_font = ExtResource("3_0qtg5")
+theme_override_font_sizes/normal_font_size = 21
+bbcode_enabled = true
+text = "[left]STATS:
+
+Physical Damage -- 10
+Move Speed -- 500
+blah blah blah
+[/left]"
+fit_content = true
+
+[node name="RestartBTN" type="Button" parent="GUI/PauseMenu/Panel"]
+custom_minimum_size = Vector2(0, 53)
+layout_mode = 2
+offset_left = 578.0
+offset_top = 200.0
+offset_right = 702.0
+offset_bottom = 253.0
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("3_0qtg5")
+theme_override_font_sizes/font_size = 26
+text = "RESTART"
+
+[node name="DebugMenu" type="Panel" parent="GUI/PauseMenu"]
+clip_contents = true
+layout_mode = 0
+offset_left = 384.0
+offset_right = 640.0
+offset_bottom = 360.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_322be")
+
+[node name="DebugMenuTxt" type="Label" parent="GUI/PauseMenu/DebugMenu"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = -9.0
+anchor_bottom = -9.0
+offset_top = 3242.0
+offset_right = 256.0
+offset_bottom = 3272.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 17
+theme_override_fonts/font = ExtResource("3_0qtg5")
+theme_override_font_sizes/font_size = 29
+text = "DEBUG/CHEAT MENU"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="GUI/PauseMenu/DebugMenu"]
+clip_contents = true
+layout_mode = 2
+offset_top = 28.0
+offset_right = 256.0
+offset_bottom = 32.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="GUI/PauseMenu/DebugMenu"]
+layout_mode = 0
+offset_top = 32.0
+offset_right = 256.0
+offset_bottom = 360.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GUI/PauseMenu/DebugMenu/ScrollContainer"]
+custom_minimum_size = Vector2(248, 328)
+layout_mode = 2
+
+[node name="CheckBox" type="CheckBox" parent="GUI/PauseMenu/DebugMenu/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("3_0qtg5")
+theme_override_font_sizes/font_size = 20
+text = "INVINCABLE"
+
+[node name="GainLevelBTN" type="Button" parent="GUI/PauseMenu/DebugMenu/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("3_0qtg5")
+theme_override_font_sizes/font_size = 20
+text = "LEVEL UP"
+
+[node name="GainRerollBTN" type="Button" parent="GUI/PauseMenu/DebugMenu/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("3_0qtg5")
+theme_override_font_sizes/font_size = 20
+text = "GAIN A REROLL"
+
+[node name="HSeparator2" type="HSeparator" parent="GUI/PauseMenu/DebugMenu/ScrollContainer/VBoxContainer"]
+clip_contents = true
+layout_mode = 2
+
+[node name="StatsText" type="Label" parent="GUI/PauseMenu/DebugMenu/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("3_0qtg5")
+theme_override_font_sizes/font_size = 20
+text = "STATS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SelectUpgrade" type="OptionButton" parent="GUI/PauseMenu/DebugMenu/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSplitContainer" type="HSplitContainer" parent="GUI/PauseMenu/DebugMenu/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="SpinBoxForStat" type="SpinBox" parent="GUI/PauseMenu/DebugMenu/ScrollContainer/VBoxContainer/HSplitContainer"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+min_value = 0.01
+max_value = 99999.0
+step = 0.01
+value = 0.01
+
+[node name="SetBTN" type="Button" parent="GUI/PauseMenu/DebugMenu/ScrollContainer/VBoxContainer/HSplitContainer"]
+layout_mode = 2
+text = "SET"
+
+[node name="HSeparator3" type="HSeparator" parent="GUI/PauseMenu/DebugMenu/ScrollContainer/VBoxContainer"]
+clip_contents = true
+layout_mode = 2
+
+[node name="TimeText" type="Label" parent="GUI/PauseMenu/DebugMenu/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("3_0qtg5")
+theme_override_font_sizes/font_size = 20
+text = "TIME"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Minutes" type="HSplitContainer" parent="GUI/PauseMenu/DebugMenu/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="SpinBoxForMinutes" type="SpinBox" parent="GUI/PauseMenu/DebugMenu/ScrollContainer/VBoxContainer/Minutes"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+max_value = 99999.0
+
+[node name="SetMinutesBTN" type="Button" parent="GUI/PauseMenu/DebugMenu/ScrollContainer/VBoxContainer/Minutes"]
+layout_mode = 2
+text = "SET MINUTES"
+
+[node name="Seconds" type="HSplitContainer" parent="GUI/PauseMenu/DebugMenu/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="SpinBoxForSeconds" type="SpinBox" parent="GUI/PauseMenu/DebugMenu/ScrollContainer/VBoxContainer/Seconds"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+max_value = 60.0
+
+[node name="SetSecondsBTN" type="Button" parent="GUI/PauseMenu/DebugMenu/ScrollContainer/VBoxContainer/Seconds"]
+layout_mode = 2
+text = "SET SECONDS"
+
+[node name="HSeparator4" type="HSeparator" parent="GUI/PauseMenu/DebugMenu/ScrollContainer/VBoxContainer"]
+clip_contents = true
+layout_mode = 2
+
+[node name="HPText" type="Label" parent="GUI/PauseMenu/DebugMenu/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("3_0qtg5")
+theme_override_font_sizes/font_size = 20
+text = "HEALTH"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HP" type="HSplitContainer" parent="GUI/PauseMenu/DebugMenu/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="SpinBoxForHP" type="SpinBox" parent="GUI/PauseMenu/DebugMenu/ScrollContainer/VBoxContainer/HP"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+min_value = 1.0
+max_value = 99999.0
+value = 1.0
+
+[node name="SetHP" type="Button" parent="GUI/PauseMenu/DebugMenu/ScrollContainer/VBoxContainer/HP"]
+layout_mode = 2
+text = "HEAL"
+
+[node name="HSeparator5" type="HSeparator" parent="GUI/PauseMenu/DebugMenu/ScrollContainer/VBoxContainer"]
+clip_contents = true
+layout_mode = 2
+
+[connection signal="timeout" from="RegenHealthTimer" to="." method="_on_regen_health_timer_timeout"]
+[connection signal="pressed" from="GUI/LevelUpGUI/Upgrades/LevelOption1/RerollBTN" to="GUI" method="_on_reroll_btn_pressed"]
+[connection signal="pressed" from="GUI/LevelUpGUI/Upgrades/LevelOption1/VBoxContainer/ChooseBTN" to="GUI" method="_on_choose_btn_1_pressed"]
+[connection signal="pressed" from="GUI/LevelUpGUI/Upgrades/LevelOption2/VBoxContainer/ChooseBTN" to="GUI" method="_on_choose_btn_2_pressed"]
+[connection signal="pressed" from="GUI/LevelUpGUI/Upgrades/LevelOption3/VBoxContainer/ChooseBTN" to="GUI" method="_on_choose_btn_3_pressed"]
+[connection signal="pressed" from="GUI/PauseMenu/Panel/RestartBTN" to="GUI/PauseMenu" method="_on_restart_btn_pressed"]
+[connection signal="toggled" from="GUI/PauseMenu/DebugMenu/ScrollContainer/VBoxContainer/CheckBox" to="GUI/PauseMenu" method="_on_check_box_toggled"]
+[connection signal="pressed" from="GUI/PauseMenu/DebugMenu/ScrollContainer/VBoxContainer/GainLevelBTN" to="GUI/PauseMenu" method="_on_gain_level_btn_pressed"]
+[connection signal="pressed" from="GUI/PauseMenu/DebugMenu/ScrollContainer/VBoxContainer/GainRerollBTN" to="GUI/PauseMenu" method="_on_gain_reroll_btn_pressed"]
+[connection signal="pressed" from="GUI/PauseMenu/DebugMenu/ScrollContainer/VBoxContainer/HSplitContainer/SetBTN" to="GUI/PauseMenu" method="_on_set_btn_pressed"]
+[connection signal="pressed" from="GUI/PauseMenu/DebugMenu/ScrollContainer/VBoxContainer/Minutes/SetMinutesBTN" to="GUI/PauseMenu" method="_on_set_minutes_btn_pressed"]
+[connection signal="pressed" from="GUI/PauseMenu/DebugMenu/ScrollContainer/VBoxContainer/Seconds/SetSecondsBTN" to="GUI/PauseMenu" method="_on_set_seconds_btn_pressed"]
+[connection signal="pressed" from="GUI/PauseMenu/DebugMenu/ScrollContainer/VBoxContainer/HP/SetHP" to="GUI/PauseMenu" method="_on_set_hp_pressed"]

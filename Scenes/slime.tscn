@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=3 uid="uid://knkmcidwokse"]
+
+[ext_resource type="Script" path="res://Scripts/Enemy.gd" id="1_ilgsg"]
+[ext_resource type="Shader" path="res://Shaders/fill_color.gdshader" id="2_hrt6k"]
+[ext_resource type="Texture2D" uid="uid://dee5qfqmko66y" path="res://Sprites/slime.png" id="3_hfsp6"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bumsu"]
+resource_local_to_scene = true
+shader = ExtResource("2_hrt6k")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_modifier = 0.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rwmyf"]
+radius = 7.0
+height = 14.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7u6cf"]
+radius = 8.06
+
+[node name="Slime" type="CharacterBody2D" groups=["Enemy"]]
+y_sort_enabled = true
+position = Vector2(0, -3)
+collision_layer = 2
+collision_mask = 3
+motion_mode = 1
+script = ExtResource("1_ilgsg")
+move_speed = 1500.0
+health = 12
+damage_to_player = 3
+knockback_strength = 150.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+y_sort_enabled = true
+material = SubResource("ShaderMaterial_bumsu")
+texture = ExtResource("3_hfsp6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 3)
+shape = SubResource("CapsuleShape2D_rwmyf")
+
+[node name="HitPlayerRange" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitPlayerRange"]
+position = Vector2(0, 3)
+shape = SubResource("CircleShape2D_7u6cf")

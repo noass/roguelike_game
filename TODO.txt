@@ -1,0 +1,5 @@
+Upgrades to add:
+	- Luck
+	- Attack count
+	- Critical chance
+	- ?Damage from enemies dodge chance?

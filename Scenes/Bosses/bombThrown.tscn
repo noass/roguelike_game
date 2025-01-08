@@ -1,0 +1,63 @@
+[gd_scene load_steps=8 format=3 uid="uid://blhwlo5um28be"]
+
+[ext_resource type="Script" path="res://Scripts/Bosses/bombThrown.gd" id="1_kufkf"]
+[ext_resource type="Shader" path="res://Shaders/fill_color.gdshader" id="2_h8lty"]
+[ext_resource type="Texture2D" uid="uid://b7cpvr3quhtib" path="res://Sprites/Bosses/bomb.png" id="3_qp5ev"]
+[ext_resource type="AudioStream" uid="uid://c8q6uelhqb4o4" path="res://Sounds/bombTick.wav" id="4_yam0b"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bumsu"]
+resource_local_to_scene = true
+shader = ExtResource("2_h8lty")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_modifier = 0.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7u6cf"]
+radius = 8.0
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_aedjo"]
+lifetime_randomness = 1.0
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 1.0
+angle_min = 1.07288e-05
+angle_max = 1.07288e-05
+direction = Vector3(0, -1, 0)
+spread = 74.793
+initial_velocity_min = 55.12
+initial_velocity_max = 80.15
+gravity = Vector3(0, 98, 0)
+scale_min = 0.5
+scale_max = 1.5
+color = Color(1, 0.560784, 0, 1)
+hue_variation_min = -0.01
+hue_variation_max = 0.14
+
+[node name="BombOgre" type="Area2D"]
+script = ExtResource("1_kufkf")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+y_sort_enabled = true
+material = SubResource("ShaderMaterial_bumsu")
+texture = ExtResource("3_qp5ev")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_7u6cf")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+position = Vector2(10, -7)
+amount = 23
+process_material = SubResource("ParticleProcessMaterial_aedjo")
+lifetime = 0.14
+randomness = 1.0
+
+[node name="BombTickTimer" type="Timer" parent="."]
+wait_time = 0.7
+autostart = true
+
+[node name="bombSHHHHH" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_yam0b")
+volume_db = -6.85
+autoplay = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="BombTickTimer" to="." method="_on_bomb_tick_timer_timeout"]

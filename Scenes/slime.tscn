@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://knkmcidwokse"]
+[gd_scene load_steps=8 format=3 uid="uid://knkmcidwokse"]
 
 [ext_resource type="Script" path="res://Scripts/Enemy.gd" id="1_ilgsg"]
 [ext_resource type="Shader" path="res://Shaders/fill_color.gdshader" id="2_hrt6k"]
 [ext_resource type="Texture2D" uid="uid://dee5qfqmko66y" path="res://Sprites/slime.png" id="3_hfsp6"]
+[ext_resource type="AudioStream" uid="uid://dpwy7rmye0sxr" path="res://Sounds/hit.wav" id="4_5h4bd"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bumsu"]
 resource_local_to_scene = true
@@ -43,3 +44,6 @@ shape = SubResource("CapsuleShape2D_rwmyf")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitPlayerRange"]
 position = Vector2(0, 3)
 shape = SubResource("CircleShape2D_7u6cf")
+
+[node name="damageTakenSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_5h4bd")

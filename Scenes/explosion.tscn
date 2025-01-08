@@ -1,0 +1,78 @@
+[gd_scene load_steps=11 format=3 uid="uid://b27fk6amvdo1x"]
+
+[ext_resource type="Script" path="res://Scripts/explosion.gd" id="1_7r71x"]
+[ext_resource type="AudioStream" uid="uid://bpdl6hh611r03" path="res://Sounds/explosion.wav" id="2_84hfl"]
+
+[sub_resource type="Curve" id="Curve_8oplo"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.828897, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_dai1u"]
+curve = SubResource("Curve_8oplo")
+
+[sub_resource type="Curve" id="Curve_rkx5b"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_j075b"]
+curve = SubResource("Curve_rkx5b")
+
+[sub_resource type="Curve" id="Curve_iku24"]
+min_value = -200.0
+max_value = 200.0
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_hwhsh"]
+curve = SubResource("Curve_iku24")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_vpg7t"]
+lifetime_randomness = 1.0
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 25.72
+spread = 180.0
+flatness = 1.0
+initial_velocity_min = 10.04
+initial_velocity_max = 123.74
+gravity = Vector3(0, 0, 0)
+linear_accel_min = -2.23517e-06
+linear_accel_max = 68.23
+linear_accel_curve = SubResource("CurveTexture_hwhsh")
+radial_accel_min = -46.15
+radial_accel_max = 30.1
+tangential_accel_min = -44.15
+tangential_accel_max = 26.76
+scale_min = 1.5
+scale_max = 2.0
+color = Color(1, 0, 0, 1)
+alpha_curve = SubResource("CurveTexture_dai1u")
+emission_curve = SubResource("CurveTexture_j075b")
+hue_variation_min = -0.01
+hue_variation_max = 0.17
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uhm4d"]
+radius = 79.1012
+
+[node name="Explosion" type="Area2D"]
+script = ExtResource("1_7r71x")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 700
+process_material = SubResource("ParticleProcessMaterial_vpg7t")
+one_shot = true
+explosiveness = 0.92
+randomness = 1.0
+trail_enabled = true
+trail_lifetime = 0.04
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_uhm4d")
+
+[node name="explosionSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_84hfl")
+autoplay = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="finished" from="GPUParticles2D" to="." method="_on_gpu_particles_2d_finished"]

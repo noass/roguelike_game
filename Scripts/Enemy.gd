@@ -48,6 +48,9 @@ func _process(delta):
 		damage_to_player_cooldown = 0.5
 	
 func hit(damage_dealt):
+	if $damageTakenSound:
+		$damageTakenSound.pitch_scale = randf_range(0.8, 1.2)
+		$damageTakenSound.play()
 	health -= damage_dealt
 	var damage_number_instance = damage_number.instantiate()
 	damage_number_instance.position = position

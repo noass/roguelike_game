@@ -1,11 +1,15 @@
-[gd_scene load_steps=16 format=3 uid="uid://cu403irciaw4m"]
+[gd_scene load_steps=20 format=3 uid="uid://cu403irciaw4m"]
 
 [ext_resource type="Script" path="res://Scripts/Player.gd" id="1_a6w1y"]
 [ext_resource type="Texture2D" uid="uid://ur5dofpo05b0" path="res://Sprites/player.png" id="1_biyp0"]
 [ext_resource type="Shader" path="res://Shaders/fill_color.gdshader" id="2_ioirc"]
 [ext_resource type="FontFile" uid="uid://c8t7eq13wr5xn" path="res://Fonts/Wolfskin.otf" id="3_0qtg5"]
 [ext_resource type="Script" path="res://Scripts/gui.gd" id="3_10dlp"]
+[ext_resource type="AudioStream" uid="uid://dpwy7rmye0sxr" path="res://Sounds/hit.wav" id="4_sv437"]
 [ext_resource type="Script" path="res://Scripts/pause_menu.gd" id="5_5pe5v"]
+[ext_resource type="AudioStream" uid="uid://bo8c58qud0d5l" path="res://Sounds/select.wav" id="5_rpwj3"]
+[ext_resource type="AudioStream" uid="uid://pjw2x21bp3cp" path="res://Sounds/death.wav" id="6_1goqg"]
+[ext_resource type="AudioStream" uid="uid://d3w2cutgt7l65" path="res://Sounds/levelup.wav" id="6_65j3r"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_78x5s"]
 shader = ExtResource("2_ioirc")
@@ -51,11 +55,14 @@ autostart = true
 material = SubResource("ShaderMaterial_78x5s")
 texture = ExtResource("1_biyp0")
 
+[node name="Camera2D" type="Camera2D" parent="."]
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 2)
 shape = SubResource("CapsuleShape2D_g8gha")
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="damageTakenSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_sv437")
 
 [node name="GUI" type="Control" parent="."]
 process_mode = 3
@@ -65,6 +72,15 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("3_10dlp")
+
+[node name="deathSound" type="AudioStreamPlayer" parent="GUI"]
+stream = ExtResource("6_1goqg")
+
+[node name="selectSound" type="AudioStreamPlayer" parent="GUI"]
+stream = ExtResource("5_rpwj3")
+
+[node name="levelUpSound" type="AudioStreamPlayer" parent="GUI"]
+stream = ExtResource("6_65j3r")
 
 [node name="LevelProgress" type="ProgressBar" parent="GUI"]
 layout_mode = 1

@@ -6,11 +6,17 @@ var remaining_rerolls = 3
 
 var upgrades_generated = false
 
+var deathSoundPlayed = false
+
 func _ready():
 	#GameManager.curr_xp = 20
 	GameManager.curr_health = Upgrades.stats["max_health"]
 
 func _process(delta):
+	if GameManager.dead and not deathSoundPlayed:
+		$deathSound.pitch_scale = randf_range(0.8, 1.2)
+		$deathSound.play()
+		deathSoundPlayed = true
 	$FPSTEXT.text = "FPS: " + str(Engine.get_frames_per_second())
 	$LevelText.text = str(GameManager.curr_xp) + "/" + str(GameManager.xp_needed_for_lvl_up)
 	$LevelProgress.value = GameManager.curr_xp
@@ -18,6 +24,8 @@ func _process(delta):
 	$ActualLevelText.text = "Level: " + str(GameManager.level)
 	$LevelUpGUI/Upgrades/LevelOption1/RerollsRemainingText.text = "Rerolls remaining: " + str(remaining_rerolls)
 	if GameManager.curr_xp >= GameManager.xp_needed_for_lvl_up:
+		$levelUpSound.pitch_scale = randf_range(0.8, 1.2)
+		$levelUpSound.play()
 		GameManager.level += 1
 		GameManager.curr_xp = 0
 		GameManager.xp_needed_for_lvl_up = round(GameManager.xp_needed_for_lvl_up * GameManager.xp_increase_ratio)
@@ -78,18 +86,24 @@ func generate_upgrades():
 		upgrades_generated = true
 
 func _on_choose_btn_1_pressed():
+	$selectSound.pitch_scale = randf_range(0.8, 1.2)
+	$selectSound.play()
 	get_tree().paused = false
 	upgrades_generated = false
 	Upgrades.upgrades[$LevelUpGUI/Upgrades/LevelOption1/VBoxContainer/ChooseBTN.get_meta("upgrade_index")]["give"].call()
 	$LevelUpGUI.hide()
 
 func _on_choose_btn_2_pressed():
+	$selectSound.pitch_scale = randf_range(0.8, 1.2)
+	$selectSound.play()
 	get_tree().paused = false
 	upgrades_generated = false
 	Upgrades.upgrades[$LevelUpGUI/Upgrades/LevelOption2/VBoxContainer/ChooseBTN.get_meta("upgrade_index")]["give"].call()
 	$LevelUpGUI.hide()
 
 func _on_choose_btn_3_pressed():
+	$selectSound.pitch_scale = randf_range(0.8, 1.2)
+	$selectSound.play()
 	get_tree().paused = false
 	upgrades_generated = false
 	Upgrades.upgrades[$LevelUpGUI/Upgrades/LevelOption3/VBoxContainer/ChooseBTN.get_meta("upgrade_index")]["give"].call()
@@ -97,6 +111,8 @@ func _on_choose_btn_3_pressed():
 
 func _on_reroll_btn_pressed():
 	if remaining_rerolls > 0:
+		$selectSound.pitch_scale = randf_range(0.8, 1.2)
+		$selectSound.play()
 		upgrades_generated = false
 		remaining_rerolls -= 1
 		$LevelUpGUI/Upgrades/LevelOption1/RerollsRemainingText.text = "Rerolls remaining: " + str(remaining_rerolls)

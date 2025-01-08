@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://c3y8d2i2lby2o"]
+[gd_scene load_steps=8 format=3 uid="uid://c3y8d2i2lby2o"]
 
 [ext_resource type="Script" path="res://Scripts/Enemy.gd" id="1_dc1ky"]
 [ext_resource type="Texture2D" uid="uid://x1w58cduy1ta" path="res://Sprites/goblin.png" id="1_mmxhd"]
 [ext_resource type="Shader" path="res://Shaders/fill_color.gdshader" id="2_ilysd"]
+[ext_resource type="AudioStream" uid="uid://dpwy7rmye0sxr" path="res://Sounds/hit.wav" id="4_x0ffm"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bumsu"]
 resource_local_to_scene = true
@@ -39,3 +40,6 @@ shape = SubResource("CapsuleShape2D_rwmyf")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitPlayerRange"]
 position = Vector2(0, 6)
 shape = SubResource("CircleShape2D_rg1fe")
+
+[node name="damageTakenSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_x0ffm")

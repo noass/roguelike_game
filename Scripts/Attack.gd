@@ -2,6 +2,9 @@ extends Node2D
 
 @export var damage: float = 3.0
 
+func _enter_tree():
+	$AudioStreamPlayer.pitch_scale = randf_range(0.8, 1.2)
+
 func _process(_delta):
 	damage = Upgrades.stats["physical_damage"]
 	scale = Vector2(Upgrades.stats["attack_size"], Upgrades.stats["attack_size"])

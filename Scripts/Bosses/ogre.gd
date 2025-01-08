@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 var target: CharacterBody2D # assign target on instantiation
 var move_speed: float = 1800.0
-var health: int = 28
+var health: int = 25
 var damage_to_player = 8
 var knockback_strength: float = 100.0
 var xp_to_drop: PackedScene = preload("res://Scenes/xp_pickup_1.tscn")
@@ -16,7 +16,7 @@ var flash_time = 0.15
 var facing_left = false
 var throwing = false
 
-var thrown_slime = preload("res://Scenes/Bosses/slimeThrown.tscn")
+var thrown_slime = preload("res://Scenes/Bosses/bombThrown.tscn")
 
 var slimes_thrown_count = 0
 var max_slimes_thrown = 2
@@ -66,6 +66,8 @@ func _process(delta):
 		throwing = false
 		
 func hit(damage_dealt):
+	$damageTakenSound.pitch_scale = randf_range(0.8, 1.2)
+	$damageTakenSound.play()
 	health -= damage_dealt
 	var damage_number_instance = damage_number.instantiate()
 	damage_number_instance.position = position

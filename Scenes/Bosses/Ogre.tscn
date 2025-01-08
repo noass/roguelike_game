@@ -1,9 +1,10 @@
-[gd_scene load_steps=13 format=3 uid="uid://bl3bdo8qw7f2o"]
+[gd_scene load_steps=14 format=3 uid="uid://bl3bdo8qw7f2o"]
 
 [ext_resource type="Script" path="res://Scripts/Bosses/ogre.gd" id="1_g153i"]
-[ext_resource type="Texture2D" uid="uid://cbmo3mplka8v0" path="res://Sprites/Bosses/Ogre/ogre_walk_throw.png" id="2_14vby"]
 [ext_resource type="Shader" path="res://Shaders/fill_color.gdshader" id="2_mwy0e"]
-[ext_resource type="Texture2D" uid="uid://dee5qfqmko66y" path="res://Sprites/slime.png" id="3_me5ai"]
+[ext_resource type="Texture2D" uid="uid://budoqoev3dyju" path="res://Sprites/Bosses/ogre.png" id="3_dn2b4"]
+[ext_resource type="Texture2D" uid="uid://b7cpvr3quhtib" path="res://Sprites/Bosses/bomb.png" id="4_rnsx1"]
+[ext_resource type="AudioStream" uid="uid://dpwy7rmye0sxr" path="res://Sounds/hit.wav" id="5_ikbmv"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bumsu"]
 resource_local_to_scene = true
@@ -38,7 +39,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("SlimeOutOfBag:position")
+tracks/1/path = NodePath("bombOutOfBag:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -50,7 +51,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("SlimeOutOfBag:visible")
+tracks/2/path = NodePath("bombOutOfBag:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -62,8 +63,8 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id="Animation_m7epo"]
 resource_name = "throw"
-length = 0.5
-step = 0.1
+length = 0.35
+step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -71,31 +72,31 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [4, 5, 6, 7, 8]
+"values": [4, 5, 6, 7]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("SlimeOutOfBag:position")
+tracks/1/path = NodePath("bombOutOfBag:position")
 tracks/1/interp = 0
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.2, 0.3, 0.4),
+"times": PackedFloat32Array(0.1, 0.2, 0.3),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector2(15, -31), Vector2(27, -28), Vector2(32, -24)]
+"values": [Vector2(15, -29), Vector2(24, -24), Vector2(28, -20)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("SlimeOutOfBag:visible")
+tracks/2/path = NodePath("bombOutOfBag:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0.1, 0.5),
+"times": PackedFloat32Array(0.1, 0.35),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
@@ -137,8 +138,8 @@ script = ExtResource("1_g153i")
 y_sort_enabled = true
 material = SubResource("ShaderMaterial_bumsu")
 position = Vector2(0, -28)
-texture = ExtResource("2_14vby")
-hframes = 9
+texture = ExtResource("3_dn2b4")
+hframes = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 3)
@@ -162,15 +163,18 @@ libraries = {
 autoplay = "walk"
 speed_scale = 0.5
 
-[node name="SlimeOutOfBag" type="Sprite2D" parent="."]
+[node name="bombOutOfBag" type="Sprite2D" parent="."]
 visible = false
+z_index = -1
 y_sort_enabled = true
 position = Vector2(15, -31)
-texture = ExtResource("3_me5ai")
-flip_h = true
+texture = ExtResource("4_rnsx1")
 
 [node name="ThrowOrigin" type="Marker2D" parent="."]
 position = Vector2(32, -20)
+
+[node name="damageTakenSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_ikbmv")
 
 [connection signal="body_entered" from="RangeToThrow" to="." method="_on_range_to_throw_body_entered"]
 [connection signal="body_exited" from="RangeToThrow" to="." method="_on_range_to_throw_body_exited"]

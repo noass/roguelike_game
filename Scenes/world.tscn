@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=4 uid="uid://d0rsrp3frcobs"]
+[gd_scene load_steps=7 format=4 uid="uid://d0rsrp3frcobs"]
 
 [ext_resource type="PackedScene" uid="uid://cu403irciaw4m" path="res://Scenes/player.tscn" id="1_a3mjq"]
 [ext_resource type="Texture2D" uid="uid://cfhegiay7i236" path="res://Sprites/tilemap1.png" id="2_lcrav"]
@@ -14,6 +14,28 @@ texture = ExtResource("2_lcrav")
 [sub_resource type="TileSet" id="TileSet_1xpb5"]
 sources/0 = SubResource("TileSetAtlasSource_g81yf")
 
+[sub_resource type="GDScript" id="GDScript_qqo7y"]
+script/source = "extends Camera2D
+
+var randomStrength = 30.0
+var shakeFade = 3.0
+
+var rng = RandomNumberGenerator.new()
+
+var shakeStrength = 0.0
+
+func apply_camera_shake():
+	shakeStrength = randomStrength
+	
+func _process(delta):
+	if shakeStrength > 0:
+		shakeStrength = lerpf(shakeStrength, 0, shakeFade * delta)
+		offset = randomOffset()
+
+func randomOffset():
+	return Vector2(rng.randf_range(-shakeStrength, shakeStrength), rng.randf_range(-shakeStrength, shakeStrength))
+"
+
 [node name="World" type="Node2D"]
 y_sort_enabled = true
 
@@ -23,6 +45,9 @@ tile_set = SubResource("TileSet_1xpb5")
 
 [node name="Player" parent="." instance=ExtResource("1_a3mjq")]
 position = Vector2(641, 360)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+script = SubResource("GDScript_qqo7y")
 
 [node name="EnemySpawner" parent="." node_paths=PackedStringArray("player") instance=ExtResource("3_vwdlt")]
 player = NodePath("../Player")

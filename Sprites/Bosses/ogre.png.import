@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cbmo3mplka8v0"
-path="res://.godot/imported/ogre_walk_throw.png-0c04c1066231a0f65703cb229cbd0b5c.ctex"
+uid="uid://budoqoev3dyju"
+path="res://.godot/imported/ogre.png-a8a630cdf764e4063ddd5d13ebf20a44.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Bosses/Ogre/ogre_walk_throw.png"
-dest_files=["res://.godot/imported/ogre_walk_throw.png-0c04c1066231a0f65703cb229cbd0b5c.ctex"]
+source_file="res://Sprites/Bosses/ogre.png"
+dest_files=["res://.godot/imported/ogre.png-a8a630cdf764e4063ddd5d13ebf20a44.ctex"]
 
 [params]
 

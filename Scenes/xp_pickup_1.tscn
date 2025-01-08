@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://dilmkpicr81tb"]
+[gd_scene load_steps=8 format=3 uid="uid://dilmkpicr81tb"]
 
 [ext_resource type="Texture2D" uid="uid://dxxow5fj6p8ea" path="res://Sprites/xp_pickup_1.png" id="1_wi6vw"]
 [ext_resource type="Script" path="res://Scripts/xp_pickup.gd" id="2_f5onk"]
+[ext_resource type="AudioStream" uid="uid://cyr0wrox86bs7" path="res://Sounds/xpPickup.wav" id="3_xpvrm"]
 
 [sub_resource type="Animation" id="Animation_4b3tj"]
 length = 0.001
@@ -60,3 +61,6 @@ autoplay = "spin"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Collect_Range"]
 shape = SubResource("CircleShape2D_x4y77")
+
+[node name="pickupSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_xpvrm")

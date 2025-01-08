@@ -2,7 +2,7 @@ extends Node
 
 var stats = {
 	"physical_damage": 3,
-	"attack_size": 1.5,
+	"attack_size": 2.1,
 	#"attack_speed": 1,
 	"attack_cooldown": 1.5,
 	"pickup_range": 36,

@@ -9,7 +9,7 @@ var slime = preload("res://Scenes/slime.tscn")
 
 var ogre = preload("res://Scenes/Bosses/Ogre.tscn")
 
-func _process(delta):
+func _process(_delta):
 	if int(GameManager.minutes) % 5 == 0 and GameManager.minutes > 0 and not boss_spawned:
 		global_position.x = player.global_position.x - (get_viewport_rect().size.x/2)
 		global_position.y = player.global_position.y - (get_viewport_rect().size.y/2)
